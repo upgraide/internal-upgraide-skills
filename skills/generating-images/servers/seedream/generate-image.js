@@ -329,7 +329,7 @@ async function main() {
       }
     }
 
-    // Determine paths - save to public/ for Remotion compatibility
+    // Determine paths - save to public/ for video editing compatibility
     const projectRoot = path.resolve(__dirname, '../../../../..');
     const catalogPath = path.join(projectRoot, 'assets/catalog.json');
 
@@ -341,16 +341,16 @@ async function main() {
     // Generate new image (with optional reference support)
     const outputUrl = await withRetry(() => generateImage(prompt, aspectRatio, references, refStrength, editInstruction));
 
-    // Construct file path - save to public/ for Remotion compatibility
+    // Construct file path - save to public/ for video editing compatibility
     const timestamp = getTimestamp();
     const filename = `${sanitizeForFilename(prompt)}-${timestamp}.jpg`;
     // Map categories to public/ subdirectories
     const categoryToDir = {
-      'broll': 'public/broll',
-      'backgrounds': 'public/broll',  // Remotion uses broll for all generated
-      'products': 'public/broll'
+      'broll': 'outputs',
+      'backgrounds': 'outputs',  // Pipeline uses broll for all generated
+      'products': 'outputs'
     };
-    const dirPath = path.join(projectRoot, categoryToDir[detectedCategory] || 'public/broll');
+    const dirPath = path.join(projectRoot, categoryToDir[detectedCategory] || 'outputs');
     const filePath = output || path.join(dirPath, filename);
 
     // Ensure directory exists
@@ -383,17 +383,17 @@ async function main() {
     // Update catalog
     await updateCatalog(metadata, catalogPath);
 
-    // Calculate Remotion staticFile path
+    // Calculate output path
     const relativePath = path.relative(projectRoot, filePath);
     const staticFilePath = relativePath.replace(/^public\//, '');
 
-    // Output result with Remotion-compatible path
+    // Output result with usable path
     console.log(JSON.stringify({
       success: true,
       reused: false,
       filePath: relativePath,
-      staticFile: staticFilePath,  // Use with staticFile() in Remotion
-      remotionUsage: `staticFile('${staticFilePath}')`,
+      staticFile: staticFilePath,  // Use with video editor
+      editorUsage: `staticFile('${staticFilePath}')`,
       assetId: metadata.id,
       url: outputUrl,
       category: detectedCategory,

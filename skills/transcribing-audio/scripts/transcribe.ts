@@ -98,7 +98,7 @@ const getInputPath = (): string => {
 const getOutputDir = (): string => {
   const arg = process.argv[3];
   if (!arg) {
-    return path.join(__dirname, "../../../../workspace");
+    return path.join(__dirname, "../../../../outputs");
   }
   return path.isAbsolute(arg) ? arg : path.resolve(process.cwd(), arg);
 };
@@ -515,7 +515,7 @@ async function main() {
       throw new Error(
         `Input file not found: ${PATHS.input}\n` +
         `Usage: npx tsx transcribe.ts <audio-path> [output-dir]\n` +
-        `Example: npx tsx transcribe.ts public/audio/voiceover.mp3 workspace/`
+        `Example: npx tsx transcribe.ts public/audio/voiceover.mp3 outputs/`
       );
     }
 
@@ -583,10 +583,10 @@ async function main() {
     });
 
     console.log("\nOutputs:");
-    console.log(`  workspace/timeline.json`);
-    console.log(`  workspace/captions.vtt`);
-    console.log(`  workspace/caption-style.json`);
-    console.log(`  workspace/timeline-blueprint.json`);
+    console.log(`  outputs/timeline.json`);
+    console.log(`  outputs/captions.vtt`);
+    console.log(`  outputs/caption-style.json`);
+    console.log(`  outputs/timeline-blueprint.json`);
     console.log("\n" + "=".repeat(60));
 
   } catch (error) {

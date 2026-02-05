@@ -8,11 +8,11 @@
  *
  * Usage:
  *   npx tsx generate-wan25-i2v.ts \
- *     --image public/broll/portrait.png \
+ *     --image outputs/portrait.png \
  *     --prompt "Athletic man intensely focused, slight head movement, cinematic" \
  *     [--duration 5|10] \
  *     [--resolution 480p|720p|1080p] \
- *     [--output public/broll/output.mp4]
+ *     [--output outputs/output.mp4]
  */
 
 import Replicate from "replicate";
@@ -183,7 +183,7 @@ async function generateVideo(params: {
       success: true,
       filePath: params.output,
       staticFile: params.output.replace('public/', ''),
-      remotionUsage: `staticFile('${params.output.replace('public/', '')}')`,
+      editorUsage: `staticFile('${params.output.replace('public/', '')}')`,
       duration: params.duration,
       resolution: params.resolution,
       fileSize: buffer.length,
@@ -228,20 +228,20 @@ async function main() {
     console.log('    --prompt <description>      # Motion/action prompt (required)');
     console.log('    [--duration 5|10]           # Video duration in seconds (default: 5)');
     console.log('    [--resolution 480p|720p|1080p]  # Output resolution (default: 720p)');
-    console.log('    [--output <path>]           # Output path (default: public/broll/wan25-output.mp4)');
+    console.log('    [--output <path>]           # Output path (default: outputs/wan25-output.mp4)');
     console.log('    [--audio <path>]            # Optional audio for lip-sync');
     console.log('\nExample:');
     console.log('  npx tsx generate-wan25-i2v.ts \\');
-    console.log('    --image public/broll/athlete-portrait.png \\');
+    console.log('    --image outputs/athlete-portrait.png \\');
     console.log('    --prompt "Athlete turns head slowly, intense gaze, dramatic lighting" \\');
     console.log('    --duration 5 \\');
-    console.log('    --output public/broll/athlete-video.mp4');
+    console.log('    --output outputs/athlete-video.mp4');
     process.exit(1);
   }
 
   const duration = parseInt(args.duration || '5');
   const resolution = args.resolution || '720p';
-  const output = args.output || generateOutputPath('public/broll/wan25-output.mp4');
+  const output = args.output || generateOutputPath('outputs/wan25-output.mp4');
 
   // Validate duration
   if (![5, 10].includes(duration)) {

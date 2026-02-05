@@ -16,7 +16,7 @@ const TEST_VIDEOS = {
 };
 
 // Output directory
-const OUTPUT_DIR = resolve('./workspace');
+const OUTPUT_DIR = resolve('./outputs');
 
 async function main() {
   console.log('🧪 FFmpeg Skill Test Suite\n');

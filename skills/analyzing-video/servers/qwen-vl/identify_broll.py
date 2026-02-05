@@ -14,7 +14,7 @@ Usage:
     output_path: Optional file path for output (defaults to stdout)
 
 Example:
-    python identify_broll.py inputs/source-videos/ "ai,automation,productivity" workspace/broll-clips.json
+    python identify_broll.py inputs/source-videos/ "ai,automation,productivity" outputs/broll-clips.json
 """
 
 import sys

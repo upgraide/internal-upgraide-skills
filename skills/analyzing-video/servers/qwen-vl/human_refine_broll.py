@@ -16,7 +16,7 @@ Arguments:
     description: What the clip should show
 
 Example:
-    python human_refine_broll.py workspace/clip_window.mp4 63 5.2 10.7 "AI tool interface animation"
+    python human_refine_broll.py outputs/clip_window.mp4 63 5.2 10.7 "AI tool interface animation"
 """
 
 import sys
@@ -250,7 +250,7 @@ def main():
     if len(sys.argv) < 6:
         print("Usage: python human_refine_broll.py <window_clip_path> <window_start> <model_start> <model_end> <description>", file=sys.stderr)
         print("\nExample:", file=sys.stderr)
-        print('  python human_refine_broll.py workspace/clip_window.mp4 63 5.2 10.7 "AI interface animation"', file=sys.stderr)
+        print('  python human_refine_broll.py outputs/clip_window.mp4 63 5.2 10.7 "AI interface animation"', file=sys.stderr)
         sys.exit(1)
 
     window_clip = sys.argv[1]

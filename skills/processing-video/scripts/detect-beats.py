@@ -3,7 +3,7 @@
 Beat Detection Tool for Video Editing
 
 Analyzes audio to extract beat timestamps for precise cut synchronization.
-Outputs beat markers that can be used directly in Remotion compositions.
+Outputs beat markers that can be used directly in video compositions.
 
 Usage:
     python detect-beats.py <audio_file> [--output timeline.json] [--fps 30]

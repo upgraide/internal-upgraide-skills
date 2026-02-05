@@ -9,7 +9,7 @@
  *   tsx download-veo3-rest.ts <operation-name-or-json-file>
  *
  * Options:
- *   --output <path>       Output directory (default: public/broll)
+ *   --output <path>       Output directory (default: outputs)
  *   --filename <name>     Custom filename without extension (default: auto-generated)
  *
  * Output:
@@ -34,7 +34,7 @@ function parseArguments() {
       output: {
         type: 'string',
         short: 'o',
-        default: 'public/broll',
+        default: 'outputs',
       },
       filename: {
         type: 'string',
@@ -71,7 +71,7 @@ Arguments:
   operation-name-or-json-file    Operation name or path to JSON file from poll-veo3-rest.ts
 
 Options:
-  -o, --output <path>     Output directory (default: public/broll)
+  -o, --output <path>     Output directory (default: outputs)
   -f, --filename <name>   Custom filename without extension (default: auto-generated)
   -h, --help              Show this help message
 
@@ -83,7 +83,7 @@ Examples:
   tsx download-veo3-rest.ts operation-result.json
 
   # Custom output location
-  tsx download-veo3-rest.ts models/veo-3.1-generate-preview/operations/abc123 --output workspace/generated
+  tsx download-veo3-rest.ts models/veo-3.1-generate-preview/operations/abc123 --output outputs
 
 Environment:
   GOOGLE_GENAI_API_KEY    Google GenAI API key (required)

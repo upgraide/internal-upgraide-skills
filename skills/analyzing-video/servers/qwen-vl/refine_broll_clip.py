@@ -167,7 +167,7 @@ def refine_clip(
     description: str,
     human_feedback: Optional[str] = None,
     window_padding: int = 20,
-    workspace_dir: str = "workspace/broll-refinement"
+    workspace_dir: str = "outputs/broll-refinement"
 ) -> Dict[str, Any]:
     """
     Refine a single B-roll clip's timestamps with optional human feedback.

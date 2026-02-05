@@ -3,10 +3,10 @@
 /**
  * SORA Video Download Script
  *
- * Downloads a completed video to the workspace/generated directory.
+ * Downloads a completed video to the outputs directory.
  *
  * Usage:
- *   tsx download.ts <video_id> [--output ./workspace/generated] [--variant video]
+ *   tsx download.ts <video_id> [--output ./outputs] [--variant video]
  *
  * Output:
  *   Downloaded video file and metadata JSON
@@ -28,7 +28,7 @@ function parseArguments() {
       output: {
         type: 'string',
         short: 'o',
-        default: './workspace/generated',
+        default: './outputs',
       },
       variant: {
         type: 'string',
@@ -61,7 +61,7 @@ Arguments:
   video_id                    SORA job ID to download (required)
 
 Options:
-  -o, --output <directory>    Output directory (default: ./workspace/generated)
+  -o, --output <directory>    Output directory (default: ./outputs)
   -v, --variant <type>        Content variant: video, thumbnail, spritesheet (default: video)
   -h, --help                  Show this help message
 
@@ -80,8 +80,8 @@ Environment:
 
 Output:
   Files created:
-    workspace/generated/[video_id].mp4       - The video file
-    workspace/generated/[video_id].json      - Metadata JSON
+    outputs/[video_id].mp4       - The video file
+    outputs/[video_id].json      - Metadata JSON
 
   JSON metadata printed to stdout:
   {

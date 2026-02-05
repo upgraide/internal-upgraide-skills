@@ -6,7 +6,7 @@
  * Extracts and analyzes the last frame of a video to inform better extension prompts.
  *
  * Usage:
- *   tsx analyze-last-frame.ts --video public/broll/video.mp4
+ *   tsx analyze-last-frame.ts --video outputs/video.mp4
  */
 
 import 'dotenv/config';

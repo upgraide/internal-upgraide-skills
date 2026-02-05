@@ -20,10 +20,10 @@ Usage:
 Example:
     # Using txt file with video URL
     echo "https://cdn.example.com/video.mp4" > inputs/reference-url.txt
-    python analyze_audio_visual.py inputs/reference-url.txt workspace/audio-visual-blueprint.json
+    python analyze_audio_visual.py inputs/reference-url.txt outputs/audio-visual-blueprint.json
 
     # Using URL directly
-    python analyze_audio_visual.py "https://cdn.example.com/video.mp4" workspace/audio-visual-blueprint.json
+    python analyze_audio_visual.py "https://cdn.example.com/video.mp4" outputs/audio-visual-blueprint.json
 """
 
 import sys
@@ -150,9 +150,9 @@ def main():
         print("\nExamples:", file=sys.stderr)
         print("  # Using txt file with video URL", file=sys.stderr)
         print("  echo 'https://cdn.example.com/video.mp4' > inputs/reference-url.txt", file=sys.stderr)
-        print("  python analyze_audio_visual.py inputs/reference-url.txt workspace/audio-visual-blueprint.json", file=sys.stderr)
+        print("  python analyze_audio_visual.py inputs/reference-url.txt outputs/audio-visual-blueprint.json", file=sys.stderr)
         print("\n  # Using URL directly", file=sys.stderr)
-        print('  python analyze_audio_visual.py "https://cdn.example.com/video.mp4" workspace/audio-visual-blueprint.json', file=sys.stderr)
+        print('  python analyze_audio_visual.py "https://cdn.example.com/video.mp4" outputs/audio-visual-blueprint.json', file=sys.stderr)
         sys.exit(1)
 
     video_input = sys.argv[1]

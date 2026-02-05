@@ -6,11 +6,11 @@
  * Usage:
  *   tsx generate-wan25.ts \
  *     --image inputs/first-frame.png \
- *     --audio workspace/narration.mp3 \
+ *     --audio inputs/narration.mp3 \
  *     --prompt "Cinematic scene description with camera movement, subject action, lighting" \
  *     [--duration 3-10] \
  *     [--resolution 480p|720p|1080p] \
- *     [--output public/broll/wan25-output.mp4]
+ *     [--output outputs/wan25-output.mp4]
  */
 
 import fs from 'fs';

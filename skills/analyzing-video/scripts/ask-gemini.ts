@@ -129,8 +129,8 @@ async function analyzeVideo(options: AnalyzeOptions): Promise<string> {
     headers: {
       'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
       'Content-Type': 'application/json',
-      'HTTP-Referer': 'https://spielberg.ai',
-      'X-Title': 'Spielberg Video Analysis',
+      'HTTP-Referer': 'https://upgraide.pt',
+      'X-Title': 'Video Analysis',
     },
     body: JSON.stringify({
       model: MODEL,

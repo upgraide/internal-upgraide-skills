@@ -401,13 +401,13 @@ async function main() {
       args.inputImages
     );
 
-    // Determine output path - save to public/broll/ for Remotion
+    // Determine output path - save to outputs/ for video editing
     const category = args.category || categorizePrompt(args.prompt);
     const sanitizedPrompt = sanitizeForFilename(args.prompt);
     const timestamp = getTimestamp();
     const projectRoot = path.resolve(__dirname, '../../../../..');
     const filename = `${sanitizedPrompt}-${timestamp}.png`;
-    const defaultOutputPath = path.join(projectRoot, `public/broll/${filename}`);
+    const defaultOutputPath = path.join(projectRoot, `outputs/${filename}`);
     const outputPath = args.output || defaultOutputPath;
 
     // Save image
@@ -438,7 +438,7 @@ async function main() {
     // Update catalog
     await updateCatalog(assetData);
 
-    // Calculate Remotion staticFile path
+    // Calculate output path
     const relativePath = path.relative(projectRoot, outputPath);
     const staticFilePath = relativePath.replace(/^public\//, '');
 
