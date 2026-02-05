@@ -13,8 +13,8 @@ npx tsx scripts/transcribe.ts <file> [output-dir]
 
 **Examples:**
 ```bash
-# Transcribe video (outputs to workspace/)
-npx tsx scripts/transcribe.ts public/final/inspiration.mp4
+# Transcribe video
+npx tsx scripts/transcribe.ts video.mp4
 
 # Custom output directory
 npx tsx scripts/transcribe.ts video.mp4 outputs/
@@ -22,10 +22,10 @@ npx tsx scripts/transcribe.ts video.mp4 outputs/
 
 ## Output Files
 
-Saves to `workspace/` (or custom output-dir):
+Saves to `outputs/` (or custom output-dir):
 
 - `timeline.json` - Word timestamps + phrase chunks
-- `captions.vtt` - WebVTT captions (Remotion-compatible)
+- `captions.vtt` - WebVTT captions
 - `timeline-blueprint.json` - Segments with keywords/emphasis
 
 See [resources/examples/sample-output.json](resources/examples/sample-output.json) for output format.

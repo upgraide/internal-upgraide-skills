@@ -101,9 +101,9 @@ node servers/logodev/search-brand.js --brand "Nike" --size 128 --format "png"
 
 ## Output
 
-Images save to `public/broll/`. Output JSON:
+Images save to specified output path or default `outputs/`. Output JSON:
 ```json
-{ "staticFile": "broll/image.png", "path": "/absolute/path/to/image.png" }
+{ "path": "/absolute/path/to/image.png" }
 ```
 
 ## Aspect Ratios

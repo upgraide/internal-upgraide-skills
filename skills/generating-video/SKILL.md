@@ -52,7 +52,7 @@ tsx scripts/generate-veo3.ts \
 **Extend video (+7s):**
 ```bash
 # Analyze last frame first
-tsx scripts/analyze-last-frame.ts --video public/broll/video.mp4
+tsx scripts/analyze-last-frame.ts --video outputs/video.mp4
 
 # Extend with continuation prompt
 tsx scripts/extend-veo3-rest.ts \
@@ -79,11 +79,11 @@ Use `--model sora-2-pro` for higher quality.
 ```bash
 tsx scripts/generate-wan25.ts \
   --image inputs/scene.png \
-  --audio workspace/narration.mp3 \
+  --audio inputs/narration.mp3 \
   --prompt "Detailed cinematic scene description" \
   --duration 5 \
   --resolution 720p \
-  --output public/broll/wan25-output.mp4
+  --output outputs/wan25-output.mp4
 ```
 
 **Limitations:**
@@ -132,8 +132,8 @@ Scripts auto-retry with exponential backoff (5 attempts).
 
 ## Output
 
-- VEO3: `public/broll/veo3-[id].mp4`
-- SORA: `workspace/generated/[id].mp4`
+- VEO3: `outputs/veo3-[id].mp4`
+- SORA: `outputs/sora-[id].mp4`
 
 ## Resources
 
