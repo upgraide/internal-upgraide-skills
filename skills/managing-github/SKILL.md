@@ -18,7 +18,7 @@ description: Manages GitHub repositories following Upgraide conventions - naming
 | `research-*` | Experiments, POCs | `research-ocr-eval` |
 | `archive-*` | Deprecated code | `archive-old-prototype` |
 
-**Codenames:** All client names use codenames for security. Ask the user for the codename if not provided — do not use real client names in repo names.
+**Codenames:** All client names use codenames for security. Query the codename registry before creating repos. See [Codename Registry](#codename-registry) below.
 
 ## GitHub Topics (Required)
 
@@ -102,9 +102,42 @@ Steps:
 3. Update topics: add `archived`, remove `active`
 4. Update Notion project status
 
+## Codename Registry
+
+All client projects use codenames for security. The registry lives in Notion and maps codenames → clients/projects.
+
+**Environment:** Set `NOTION_CODENAME_TOKEN` before using the script.
+
+### Query Codenames
+
+```bash
+# List all codenames
+./scripts/codename list
+
+# Filter by category
+./scripts/codename list --category project
+
+# Search by name, client, or project
+./scripts/codename search "healthcare"
+
+# Get details for a specific codename
+./scripts/codename get trust
+```
+
+### Add New Codename
+
+```bash
+./scripts/codename add <codename> \
+  --client "Client Name" \
+  --project "Project description" \
+  --repo "https://github.com/upgraide/project-codename" \
+  --category project
+```
+
+**Before creating a client repo:** Always verify the codename exists or add it first.
+
 ## Resources
 
+- [scripts/codename](scripts/codename) — Codename registry CLI (bash, requires `jq`)
 - [resources/pr-template.md](resources/pr-template.md) — PR template for `.github/PULL_REQUEST_TEMPLATE.md`
 - [resources/repo-checklist.md](resources/repo-checklist.md) — Full repo creation checklist
-
-**Note:** Codename mapping lives in Notion (internal). Always ask the user for the codename if creating a client repo.

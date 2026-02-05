@@ -1,0 +1,212 @@
+#!/bin/bash
+# Codename Registry CLI
+# 
+# Query and manage project codenames from Notion.
+#
+# Environment:
+#   NOTION_CODENAME_TOKEN - Notion integration token (required)
+#
+# Usage:
+#   codename list [--category project|internal|archive]
+#   codename search <query>
+#   codename get <codename>
+#   codename add <codename> --client <client> --project <project> [--repo <url>] [--category <cat>]
+
+set -e
+
+DATABASE_ID="2fec692e-b018-813c-8f9b-ebbbf172a6b1"
+NOTION_VERSION="2022-06-28"
+
+if [ -z "$NOTION_CODENAME_TOKEN" ]; then
+  echo "Error: NOTION_CODENAME_TOKEN environment variable not set" >&2
+  exit 1
+fi
+
+notion_query() {
+  curl -s -X POST "https://api.notion.com/v1/databases/${DATABASE_ID}/query" \
+    -H "Authorization: Bearer ${NOTION_CODENAME_TOKEN}" \
+    -H "Notion-Version: ${NOTION_VERSION}" \
+    -H "Content-Type: application/json" \
+    -d "$1"
+}
+
+notion_create() {
+  curl -s -X POST "https://api.notion.com/v1/pages" \
+    -H "Authorization: Bearer ${NOTION_CODENAME_TOKEN}" \
+    -H "Notion-Version: ${NOTION_VERSION}" \
+    -H "Content-Type: application/json" \
+    -d "$1"
+}
+
+cmd_list() {
+  local filter='{}'
+  local category=""
+  
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --category) category="$2"; shift 2;;
+      *) shift;;
+    esac
+  done
+  
+  if [ -n "$category" ]; then
+    filter="{\"filter\": {\"property\": \"Category\", \"select\": {\"equals\": \"$category\"}}}"
+  fi
+  
+  local result=$(notion_query "$filter")
+  
+  if echo "$result" | jq -e '.object == "error"' > /dev/null 2>&1; then
+    echo "Error: $(echo "$result" | jq -r '.message')" >&2
+    exit 1
+  fi
+  
+  echo ""
+  echo "Codename Registry"
+  echo "================================================================================"
+  
+  echo "$result" | jq -r '.results[] | [
+    (if .properties.Status.select.name == "active" then "🟢" elif .properties.Status.select.name == "archived" then "📦" else "⏸️" end),
+    (.properties.Codename.title[0].plain_text // "?"),
+    (.properties.Client.rich_text[0].plain_text // "?"),
+    (.properties.Category.select.name // "?")
+  ] | "\(.[0]) \(.[1] | . + " " * (20 - length)) | \(.[2] | . + " " * (25 - length)) | \(.[3])"'
+  
+  local count=$(echo "$result" | jq '.results | length')
+  echo ""
+  echo "Total: $count entries"
+}
+
+cmd_search() {
+  local query="$1"
+  
+  if [ -z "$query" ]; then
+    echo "Usage: codename search <query>" >&2
+    exit 1
+  fi
+  
+  local filter="{\"filter\": {\"or\": [
+    {\"property\": \"Codename\", \"title\": {\"contains\": \"$query\"}},
+    {\"property\": \"Client\", \"rich_text\": {\"contains\": \"$query\"}},
+    {\"property\": \"Project\", \"rich_text\": {\"contains\": \"$query\"}}
+  ]}}"
+  
+  local result=$(notion_query "$filter")
+  
+  if echo "$result" | jq -e '.object == "error"' > /dev/null 2>&1; then
+    echo "Error: $(echo "$result" | jq -r '.message')" >&2
+    exit 1
+  fi
+  
+  local count=$(echo "$result" | jq '.results | length')
+  
+  if [ "$count" -eq 0 ]; then
+    echo "No results for \"$query\""
+    exit 0
+  fi
+  
+  echo ""
+  echo "Search results for \"$query\":"
+  echo "------------------------------------------------------------"
+  
+  echo "$result" | jq -r '.results[] | "\n\(.properties.Codename.title[0].plain_text // "?") (\(.properties.Category.select.name // "?"))\n  Client:  \(.properties.Client.rich_text[0].plain_text // "-")\n  Project: \(.properties.Project.rich_text[0].plain_text // "-")\(if .properties["GitHub Repo"].url then "\n  Repo:    \(.properties["GitHub Repo"].url)" else "" end)"'
+}
+
+cmd_get() {
+  local codename="$1"
+  
+  if [ -z "$codename" ]; then
+    echo "Usage: codename get <codename>" >&2
+    exit 1
+  fi
+  
+  local filter="{\"filter\": {\"property\": \"Codename\", \"title\": {\"equals\": \"$codename\"}}}"
+  local result=$(notion_query "$filter")
+  
+  if echo "$result" | jq -e '.object == "error"' > /dev/null 2>&1; then
+    echo "Error: $(echo "$result" | jq -r '.message')" >&2
+    exit 1
+  fi
+  
+  local count=$(echo "$result" | jq '.results | length')
+  
+  if [ "$count" -eq 0 ]; then
+    echo "Codename \"$codename\" not found."
+    exit 1
+  fi
+  
+  echo "$result" | jq -r '.results[0] | "\n\(.properties.Codename.title[0].plain_text)\n========================================\nClient:   \(.properties.Client.rich_text[0].plain_text // "-")\nProject:  \(.properties.Project.rich_text[0].plain_text // "-")\nCategory: \(.properties.Category.select.name // "-")\nStatus:   \(.properties.Status.select.name // "-")\(if .properties["GitHub Repo"].url then "\nRepo:     \(.properties["GitHub Repo"].url)" else "" end)\(if .properties.Notes.rich_text[0].plain_text then "\nNotes:    \(.properties.Notes.rich_text[0].plain_text)" else "" end)"'
+}
+
+cmd_add() {
+  local codename="$1"
+  shift
+  
+  local client="" project="" repo="" category="project"
+  
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --client) client="$2"; shift 2;;
+      --project) project="$2"; shift 2;;
+      --repo) repo="$2"; shift 2;;
+      --category) category="$2"; shift 2;;
+      *) shift;;
+    esac
+  done
+  
+  if [ -z "$codename" ] || [ -z "$client" ] || [ -z "$project" ]; then
+    echo "Usage: codename add <codename> --client <client> --project <project> [--repo <url>] [--category <cat>]" >&2
+    exit 1
+  fi
+  
+  # Check if exists
+  local check_filter="{\"filter\": {\"property\": \"Codename\", \"title\": {\"equals\": \"$codename\"}}}"
+  local existing=$(notion_query "$check_filter" | jq '.results | length')
+  
+  if [ "$existing" -gt 0 ]; then
+    echo "Error: Codename \"$codename\" already exists." >&2
+    exit 1
+  fi
+  
+  # Build properties
+  local repo_prop=""
+  if [ -n "$repo" ]; then
+    repo_prop=", \"GitHub Repo\": {\"url\": \"$repo\"}"
+  fi
+  
+  local payload="{
+    \"parent\": {\"database_id\": \"$DATABASE_ID\"},
+    \"properties\": {
+      \"Codename\": {\"title\": [{\"text\": {\"content\": \"$codename\"}}]},
+      \"Client\": {\"rich_text\": [{\"text\": {\"content\": \"$client\"}}]},
+      \"Project\": {\"rich_text\": [{\"text\": {\"content\": \"$project\"}}]},
+      \"Category\": {\"select\": {\"name\": \"$category\"}},
+      \"Status\": {\"select\": {\"name\": \"active\"}}
+      $repo_prop
+    }
+  }"
+  
+  local result=$(notion_create "$payload")
+  
+  if echo "$result" | jq -e '.object == "error"' > /dev/null 2>&1; then
+    echo "Error: $(echo "$result" | jq -r '.message')" >&2
+    exit 1
+  fi
+  
+  echo "✓ Added codename \"$codename\" ($category)"
+  echo "  Client:  $client"
+  echo "  Project: $project"
+  [ -n "$repo" ] && echo "  Repo:    $repo"
+}
+
+# Main
+case "${1:-list}" in
+  list) shift; cmd_list "$@";;
+  search) shift; cmd_search "$@";;
+  get) shift; cmd_get "$@";;
+  add) shift; cmd_add "$@";;
+  *)
+    echo "Unknown command: $1" >&2
+    echo "Commands: list, search, get, add" >&2
+    exit 1
+    ;;
+esac
