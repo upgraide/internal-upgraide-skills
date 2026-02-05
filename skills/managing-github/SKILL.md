@@ -106,28 +106,42 @@ Steps:
 
 All client projects use codenames for security. The registry lives in Notion and maps codenames → clients/projects.
 
-**Environment:** Set `NOTION_CODENAME_TOKEN` before using the script.
+### Setup (one-time)
+
+```bash
+# Install Doppler CLI (if not installed)
+brew install dopplerhq/cli/doppler
+
+# Create service token in Doppler UI:
+# Project: internal-upgraide-skills → Environment: dev → Access → Service Tokens
+# Name it: <your-name>-<machine>-dev (e.g., joao-macbook-dev)
+
+# Configure Doppler for this repo
+cd /path/to/internal-upgraide-skills
+doppler configure set token YOUR_SERVICE_TOKEN
+doppler setup  # Select internal-upgraide-skills / dev
+```
 
 ### Query Codenames
 
 ```bash
 # List all codenames
-./scripts/codename list
+doppler run -- ./scripts/codename list
 
 # Filter by category
-./scripts/codename list --category project
+doppler run -- ./scripts/codename list --category project
 
 # Search by name, client, or project
-./scripts/codename search "healthcare"
+doppler run -- ./scripts/codename search "healthcare"
 
 # Get details for a specific codename
-./scripts/codename get trust
+doppler run -- ./scripts/codename get trust
 ```
 
 ### Add New Codename
 
 ```bash
-./scripts/codename add <codename> \
+doppler run -- ./scripts/codename add <codename> \
   --client "Client Name" \
   --project "Project description" \
   --repo "https://github.com/upgraide/project-codename" \

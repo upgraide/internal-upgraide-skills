@@ -1,0 +1,3 @@
+setup:
+  project: internal-upgraide-skills
+  config: dev
