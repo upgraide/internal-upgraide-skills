@@ -1,0 +1,50 @@
+{
+  "description": "Example transcription outputs for reference",
+  "timeline": {
+    "duration": 12.5,
+    "fullTranscript": "Hello everyone, welcome to this AI tool demonstration. Let me show you how it works.",
+    "words": [
+      { "text": "Hello", "start": 0.0, "end": 0.4, "confidence": 0.98 },
+      { "text": "everyone", "start": 0.5, "end": 0.9, "confidence": 0.97 },
+      { "text": "welcome", "start": 1.2, "end": 1.6, "confidence": 0.99 },
+      { "text": "to", "start": 1.7, "end": 1.8, "confidence": 0.98 },
+      { "text": "this", "start": 1.9, "end": 2.1, "confidence": 0.97 },
+      { "text": "AI", "start": 2.2, "end": 2.5, "confidence": 0.96 },
+      { "text": "tool", "start": 2.6, "end": 2.9, "confidence": 0.98 },
+      { "text": "demonstration", "start": 3.0, "end": 3.8, "confidence": 0.97 }
+    ],
+    "phrases": [
+      { "text": "Hello everyone", "start": 0.0, "end": 0.9 },
+      { "text": "welcome to this", "start": 1.2, "end": 2.1 },
+      { "text": "AI tool demonstration", "start": 2.2, "end": 3.8 }
+    ]
+  },
+  "captions_vtt": "WEBVTT\n\n00:00:00.000 --> 00:00:00.900\nHello everyone\n\n00:00:01.200 --> 00:00:02.100\nwelcome to this\n\n00:00:02.200 --> 00:00:03.800\nAI tool demonstration",
+  "caption_style": {
+    "fontSize": "4rem",
+    "fontWeight": "800",
+    "fontFamily": "Inter, sans-serif",
+    "color": "#FFFFFF",
+    "backgroundColor": "rgba(0, 0, 0, 0.7)",
+    "padding": "0.5rem 1rem",
+    "textAlign": "center",
+    "maxWords": 4,
+    "maxDuration": 1.5
+  },
+  "timeline_blueprint": {
+    "segments": [
+      {
+        "id": "seg-1",
+        "start": 0.0,
+        "end": 3.8,
+        "text": "Hello everyone, welcome to this AI tool demonstration",
+        "type": "introduction",
+        "keywords": ["AI", "tool", "demonstration"],
+        "emphasis": "high",
+        "wordCount": 8
+      }
+    ],
+    "totalDuration": 12.5,
+    "segmentCount": 1
+  }
+}
