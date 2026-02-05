@@ -18,7 +18,7 @@ description: Manages GitHub repositories following Upgraide conventions - naming
 | `research-*` | Experiments, POCs | `research-ocr-eval` |
 | `archive-*` | Deprecated code | `archive-old-prototype` |
 
-**Codenames:** All client names use codenames. See [Codename Mapping](https://www.notion.so/Codename-Mapping-a6051920c0144a4a8d189e7dfa391813) in Notion.
+**Codenames:** All client names use codenames for security. Ask the user for the codename if not provided — do not use real client names in repo names.
 
 ## GitHub Topics (Required)
 
@@ -106,4 +106,5 @@ Steps:
 
 - [resources/pr-template.md](resources/pr-template.md) — PR template for `.github/PULL_REQUEST_TEMPLATE.md`
 - [resources/repo-checklist.md](resources/repo-checklist.md) — Full repo creation checklist
-- [Codename Mapping](https://www.notion.so/Codename-Mapping-a6051920c0144a4a8d189e7dfa391813) — Notion page with client codenames
+
+**Note:** Codename mapping lives in Notion (internal). Always ask the user for the codename if creating a client repo.

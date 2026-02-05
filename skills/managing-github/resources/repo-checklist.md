@@ -4,8 +4,8 @@
 
 ## Pre-Creation
 
-- [ ] Verify codename exists in [Notion Codename Mapping](https://www.notion.so/Codename-Mapping-a6051920c0144a4a8d189e7dfa391813)
-- [ ] If new client, create codename first
+- [ ] Verify codename exists (ask user if unsure)
+- [ ] If new client, user must create codename in Notion first
 - [ ] Get Tech Lead approval
 
 ## Creation Checklist
