@@ -13,16 +13,16 @@ npx tsx scripts/transcribe.ts <file> [output-dir]
 
 **Examples:**
 ```bash
-# Transcribe video
-npx tsx scripts/transcribe.ts video.mp4
+# Transcribe video, output to current directory
+npx tsx scripts/transcribe.ts video.mp4 ./
 
-# Custom output directory
-npx tsx scripts/transcribe.ts video.mp4 outputs/
+# Transcribe to specific directory
+npx tsx scripts/transcribe.ts input/recording.mp4 output/transcripts/
 ```
 
 ## Output Files
 
-Saves to `outputs/` (or custom output-dir):
+Saves to specified output directory:
 
 - `timeline.json` - Word timestamps + phrase chunks
 - `captions.vtt` - WebVTT captions

@@ -101,7 +101,7 @@ node servers/logodev/search-brand.js --brand "Nike" --size 128 --format "png"
 
 ## Output
 
-Images save to specified output path or default `outputs/`. Output JSON:
+Images save to specified `--output` path. Output JSON:
 ```json
 { "path": "/absolute/path/to/image.png" }
 ```

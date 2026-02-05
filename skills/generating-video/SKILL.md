@@ -44,6 +44,7 @@ npm install @google/genai openai
 tsx scripts/generate-veo3.ts \
   --prompt "Professional cinematic description" \
   --image ./first-frame.png \
+  --output ./output.mp4 \
   --aspect-ratio "9:16" \
   --resolution "720p" \
   --duration "8"
@@ -52,12 +53,13 @@ tsx scripts/generate-veo3.ts \
 **Extend video (+7s):**
 ```bash
 # Analyze last frame first
-tsx scripts/analyze-last-frame.ts --video outputs/video.mp4
+tsx scripts/analyze-last-frame.ts --video ./video.mp4
 
 # Extend with continuation prompt
 tsx scripts/extend-veo3-rest.ts \
   --video-uri "https://generativelanguage.googleapis.com/.../download?alt=media" \
-  --prompt "Natural continuation based on last frame"
+  --prompt "Natural continuation based on last frame" \
+  --output ./extended.mp4
 ```
 
 Chain 2-3 extensions for 15-22s videos.
@@ -69,7 +71,8 @@ tsx scripts/generate.ts \
   --prompt "Wide shot of modern office, natural lighting, slow pan" \
   --model sora-2 \
   --size 1280x720 \
-  --seconds 5
+  --seconds 5 \
+  --output ./sora-output.mp4
 ```
 
 Use `--model sora-2-pro` for higher quality.
@@ -78,12 +81,12 @@ Use `--model sora-2-pro` for higher quality.
 
 ```bash
 tsx scripts/generate-wan25.ts \
-  --image inputs/scene.png \
-  --audio inputs/narration.mp3 \
+  --image ./scene.png \
+  --audio ./narration.mp3 \
   --prompt "Detailed cinematic scene description" \
   --duration 5 \
   --resolution 720p \
-  --output outputs/wan25-output.mp4
+  --output ./wan25-output.mp4
 ```
 
 **Limitations:**
@@ -129,11 +132,6 @@ Scripts auto-retry with exponential backoff (5 attempts).
 **"Audio duration out of range"** (Wan 2.5): Audio must be 3-30s
 
 **"Inappropriate content"** (Wan 2.5): Content filter triggered, try different input
-
-## Output
-
-- VEO3: `outputs/veo3-[id].mp4`
-- SORA: `outputs/sora-[id].mp4`
 
 ## Resources
 
